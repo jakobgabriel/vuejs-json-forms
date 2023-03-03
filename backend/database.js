@@ -10,8 +10,8 @@ const client = new Client({
   });
 
 
-  client.on("connect",()=>{console.log('DataBase Connected=============>')});
-  client.on("end",()=>{console.log('DataBase end===================>')});
+  client.on("connect",()=>{console.log('<======== Database connected ========>')});
+  client.on("end",()=>{console.log('<======== Database end ========>')});
 
 
 module.exports = client;
