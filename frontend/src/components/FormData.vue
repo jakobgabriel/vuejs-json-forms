@@ -5,19 +5,20 @@
         <!-- json form -->
         <vue-form-generator :schema="schema" :model="model">
         </vue-form-generator>
-        <b-button @click="uploadDataToServer" variant="outline-primary"
-          >Submit</b-button
-        >
+        <b-button @click="uploadDataToServer" variant="outline-primary" :disabled="isDataUploading">
+          <!-- <span class="d-flex" v-if="isDataUploading"><b-spinner  small type="grow"></b-spinner>
+            Uploading...</span> -->
+            <b-spinner v-if="isDataUploading" large></b-spinner>
+          <span v-else>Submit</span></b-button>
       </div>
     </div>
   </div>
 </template>
-   
 <script>
 import Vue from "vue";
 import VueFormGenerator from "vue-form-generator";
 import "vue-form-generator/dist/vfg.css";
-import fileds from "./fields.json";
+import fileds from "./fields.js";
 import axios from "axios";
 
 Vue.use(VueFormGenerator);
@@ -27,6 +28,7 @@ export default {
     return {
       model: {},
       schema: fileds,
+      isDataUploading: false,
     };
   },
   methods: {
@@ -34,6 +36,7 @@ export default {
      * This method is responsible to upload data to server
      */
     uploadDataToServer() {
+      this.isDataUploading = true;
       // Send data to server
       axios
         .post("http://localhost:3000/api/insert-json", this.model)
@@ -42,7 +45,9 @@ export default {
         })
         .catch(() => {
           this.makeToast("Error!", "danger", "Something went wrong");
-        });
+        }).finally(() => {
+          this.isDataUploading = false;
+        })
     },
     makeToast(title, variant = null, message) {
       this.$bvToast.toast(message, {
@@ -53,21 +58,4 @@ export default {
     },
   },
 };
-</script> 
-<style scoped>
-.container {
-  height: 100vh;
-}
-.main-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-.form-container {
-  width: 50%;
-  box-shadow: #0d55f057 0px 10px 20px, rgb(0 0 0 / 23%) 0px 6px 6px;
-  border-radius: 5px;
-}
-</style>
+</script>

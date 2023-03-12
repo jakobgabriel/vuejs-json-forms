@@ -3,8 +3,28 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 
+const options = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Vue JSON App API",
+			version: "1.0.0",
+			description: "Data collection platform API",
+		},
+		servers: [
+			{
+				url: "http://localhost:3000",
+			},
+		],
+	},
+	apis: ["./app.js"],
+};
 
+const specs = swaggerJsDoc(options);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 const connectToDB = async () => {
   try {
     await client.connect();
@@ -13,7 +33,7 @@ const connectToDB = async () => {
   }
 };
 
-  
+
 
 // connect to DB
 connectToDB();
@@ -36,7 +56,52 @@ app.get("/read", async(req, res) => {
     res.status(500).send("Error Occurs");
   }
 });
-
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     json_data:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: "Name of the user"
+ *         age:
+ *           type: integer
+ *           description: "Age of the user"
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: "Email address of the user"
+ *       example:
+ *         name: John Doe
+ *         age: 30
+ *         email: johndoe@example.com
+ */
+ /**
+  * @swagger
+  * tags:
+  *   name: Insert JSON
+  *   description: The data insertion API
+  */
+/**
+ * @swagger
+ * /api/insert-json:
+ *   post:
+ *     summary: Insert JSON data
+ *     tags: [Insert JSON]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/json_data'
+ *     responses:
+ *       200:
+ *         description: The data was successfully submited
+ *       500:
+ *         description: Some server error
+ */
 app.post("/api/insert-json", async(req, res) => {
   try {
     console.log(req.body);
@@ -60,7 +125,7 @@ app.post("/api/insert-json", async(req, res) => {
           console.error(err);
           res.status(500).send("Error inserting user");
         } else {
-          res.send("User inserted successfully");
+          res.send("The data was successfully submited");
         }
       }
     );

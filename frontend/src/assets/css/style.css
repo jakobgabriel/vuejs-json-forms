@@ -1,0 +1,49 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+}
+
+.nav-main-container{
+  position: sticky;
+  top: 0;
+}
+.nav-container{
+  height: 80px !important;
+  /* background-color: #2a817f !important; */
+  background-color: black !important;
+
+}
+
+.navbar-brand{
+  margin-right: 4px !important;
+}
+
+.nav-app-logo{
+  height: 90px;
+  width: 90px;
+}
+
+.nav-app-name {
+  font-weight: bold !important;
+  font-size: 28px !important;
+  color: white !important;
+}
+
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .main-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .form-container {
+    width: 50%;
+    box-shadow: #0de6f057 0px 10px 20px, rgb(0 0 0 / 23%) 0px 6px 6px;
+    border-radius: 20px;
+  }
